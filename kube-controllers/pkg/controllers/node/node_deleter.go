@@ -62,7 +62,9 @@ func (c *nodeDeleter) OnKubernetesNodeDeleted() {
 // been deleted. Non-Kubernetes nodes will be ignored.
 func (c *nodeDeleter) deleteStaleNodes() error {
 	// Possibly rate limit calls to Calico
-	time.Sleep(c.rl.When(RateLimitCalicoList))
+	t := c.rl.When(RateLimitCalicoList)
+	log.Debugf("sleep for %s", t)
+	time.Sleep(t)
 	cNodes, err := c.client.Nodes().List(context.TODO(), options.ListOptions{})
 	if err != nil {
 		log.WithError(err).Error("Error listing Calico nodes")
@@ -70,7 +72,9 @@ func (c *nodeDeleter) deleteStaleNodes() error {
 	}
 	c.rl.Forget(RateLimitCalicoList)
 
-	time.Sleep(c.rl.When(RateLimitK8s))
+	t = c.rl.When(RateLimitK8s)
+	log.Debugf("sleep for %s", t)
+	time.Sleep(t)
 	kNodes, err := c.clientset.CoreV1().Nodes().List(context.Background(), metav1.ListOptions{})
 	if err != nil {
 		log.WithError(err).Error("Error listing K8s nodes")
@@ -95,7 +99,9 @@ func (c *nodeDeleter) deleteStaleNodes() error {
 		if k8sNodeName != "" && !kNodeIdx[k8sNodeName] {
 			// No matching Kubernetes node with that name.
 			rlKey := rateLimiterItemKey{Type: RateLimitCalicoDelete, Name: k8sNodeName}
-			time.Sleep(c.rl.When(rlKey))
+			t := c.rl.When(rlKey)
+			log.Debugf("sleep for %s", t)
+			time.Sleep(t)
 
 			// Re-confirm that the node is actually missing. This minimizes the potential that the node was
 			// deleted and then re-created between the initial List() call above, and the decision to delete the

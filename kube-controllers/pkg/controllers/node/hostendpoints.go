@@ -219,7 +219,9 @@ func (c *autoHostEndpointController) syncAutoHostendpointWithRetries(ctx context
 // listAutoHostendpoints returns a map of auto hostendpoints keyed by the
 // hostendpoint's name.
 func (c *autoHostEndpointController) listAutoHostendpoints(ctx context.Context) (map[string]api.HostEndpoint, error) {
-	time.Sleep(c.rl.When(RateLimitCalicoList))
+	t := c.rl.When(RateLimitCalicoList)
+	log.Debugf("sleep for %s", t)
+	time.Sleep(t)
 	heps, err := c.client.HostEndpoints().List(ctx, options.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("could not list hostendpoints: %v", err.Error())
@@ -239,7 +241,9 @@ func (c *autoHostEndpointController) listAutoHostendpoints(ctx context.Context) 
 func (c *autoHostEndpointController) deleteHostendpoint(ctx context.Context, hepName string) error {
 	log.Debugf("deleting hostendpoint %q", hepName)
 	rlKey := rateLimiterItemKey{Type: RateLimitCalicoDelete, Name: hepName}
-	time.Sleep(c.rl.When(rlKey))
+	t := c.rl.When(rlKey)
+	log.Debugf("sleep for %s", t)
+	time.Sleep(t)
 	_, err := c.client.HostEndpoints().Delete(ctx, hepName, options.DeleteOptions{})
 	if err != nil {
 		log.WithError(err).Warnf("could not delete host endpoint %q", hepName)
@@ -282,7 +286,9 @@ func (c *autoHostEndpointController) createAutoHostendpoint(ctx context.Context,
 	hep := c.generateAutoHostendpointFromNode(n)
 	rlKey := rateLimiterItemKey{Type: RateLimitCalicoCreate, Name: hep.Name}
 
-	time.Sleep(c.rl.When(rlKey))
+	t := c.rl.When(rlKey)
+	log.Debugf("sleep for %s", t)
+	time.Sleep(t)
 	res, err := c.client.HostEndpoints().Create(ctx, hep, options.SetOptions{})
 	if err != nil {
 		log.Warnf("could not create hostendpoint for node: %v", err)
@@ -399,7 +405,9 @@ func (c *autoHostEndpointController) updateHostendpoint(current *api.HostEndpoin
 		expected.ObjectMeta.UID = current.ObjectMeta.UID
 
 		rlKey := rateLimiterItemKey{Type: RateLimitCalicoUpdate, Name: current.Name}
-		time.Sleep(c.rl.When(rlKey))
+		t := c.rl.When(rlKey)
+		log.Debugf("sleep for %s", t)
+		time.Sleep(t)
 		_, err := c.client.HostEndpoints().Update(context.Background(), expected, options.SetOptions{})
 		if err == nil {
 			c.rl.Forget(rlKey)

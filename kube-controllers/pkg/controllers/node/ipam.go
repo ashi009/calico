@@ -1003,7 +1003,9 @@ func (c *ipamController) syncIPAM() error {
 
 		// Potentially rate limit node cleanup.
 		rlKey := rateLimiterItemKey{Type: RateLimitCalicoDelete, Name: cnode}
-		time.Sleep(c.rl.When(rlKey))
+		t := c.rl.When(rlKey)
+		log.Debugf("sleep for %s", t)
+		time.Sleep(t)
 		logc.Info("Cleaning up IPAM affinities for deleted node")
 		if err := c.cleanupNode(cnode); err != nil {
 			// Store the error, but continue. Storing the error ensures we'll retry.
