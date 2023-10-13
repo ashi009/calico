@@ -88,6 +88,7 @@ func init() {
 }
 
 func main() {
+	klog.InitFlags(nil)
 	flag.Parse()
 	if version {
 		fmt.Println(VERSION)
