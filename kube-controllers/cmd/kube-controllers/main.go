@@ -26,6 +26,7 @@ import (
 
 	"github.com/pkg/profile"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	_ "github.com/prometheus/prometheus/discovery/kubernetes"
 
 	"github.com/projectcalico/calico/libcalico-go/lib/seedrng"
 
