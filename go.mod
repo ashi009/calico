@@ -79,7 +79,7 @@ require (
 	golang.org/x/sys v0.10.0
 	golang.org/x/text v0.11.0
 	golang.zx2c4.com/wireguard/wgctrl v0.0.0-20200324154536-ceff61240acf
-	google.golang.org/genproto v0.0.0-20230717213848-3f92550aa753
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230717213848-3f92550aa753
 	google.golang.org/grpc v1.56.2
 	gopkg.in/go-playground/validator.v9 v9.27.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
@@ -93,6 +93,7 @@ require (
 	k8s.io/component-base v0.26.5
 	k8s.io/klog/v2 v2.100.1
 	k8s.io/kube-openapi v0.0.0-20230525220651-2546d827e515
+	k8s.io/kubernetes v0.0.0-00010101000000-000000000000
 	k8s.io/utils v0.0.0-20230711102312-30195339c3c7
 	modernc.org/memory v1.5.0
 	sigs.k8s.io/kind v0.11.1
@@ -101,9 +102,12 @@ require (
 require (
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
+	github.com/google/s2a-go v0.1.4 // indirect
 	github.com/grafana/regexp v0.0.0-20221122212121-6b5c0a4cb7fd // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
+	google.golang.org/genproto v0.0.0-20230717213848-3f92550aa753 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20230717213848-3f92550aa753 // indirect
 )
 
 require (
@@ -251,7 +255,7 @@ require (
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/oauth2 v0.10.0 // indirect
 	golang.org/x/term v0.10.0 // indirect
-	golang.org/x/time v0.3.0 // indirect
+	golang.org/x/time v0.3.0
 	golang.org/x/tools v0.11.0 // indirect
 	golang.zx2c4.com/wireguard v0.0.20200121 // indirect
 	google.golang.org/api v0.132.0 // indirect
